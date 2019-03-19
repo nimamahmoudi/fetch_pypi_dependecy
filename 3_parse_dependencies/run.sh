@@ -1,1 +1,1 @@
-docker run -it --mount type=bind,source="$(pwd)"/../packages,target=/usr/app/packages "$(cat .dockertag)"
+docker run -d --mount type=bind,source="$(pwd)"/../packages,target=/usr/app/packages "$(cat .dockertag)"
