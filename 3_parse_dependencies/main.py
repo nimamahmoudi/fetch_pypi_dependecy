@@ -40,7 +40,7 @@ with open('packages/extracted_reqs.txt', 'r') as infile:
 
 # Convert to dataframe
 df = pd.DataFrame(data=datadict)
-df.head()
+print(df.head())
 
 
 
@@ -56,7 +56,7 @@ for i, package in enumerate(packages):
         if len(idx) > 0:
             df.loc[idx, 'package_name'] = package
             df.loc[idx, 'package_version'] = release
-df.head()
+print(df.head())
 
 
 
@@ -94,7 +94,7 @@ class Tree(object):
     
 
 def get_requirements(package):
-    return df.loc[(df.package_name == package) & (df.requirement.notnull()), 'requirement'].values
+    return df.loc[(df.package == package) & (df.requirement.notnull()), 'requirement'].values
 
 
 def get_dependency_tree(package, tree):
@@ -104,9 +104,11 @@ def get_dependency_tree(package, tree):
         flg = tree.add(req)
         if not flg:
             continue
-        tree = get_base_dependencies(req, tree)
+        # tree = get_base_dependencies(req, tree)
+        tree = get_dependency_tree(req, tree)
     return tree
 
+    
     
 
 
@@ -134,7 +136,7 @@ for i, package in enumerate(df.package_name.unique()):
         datadict['requirements'].append(dependency)
 
 base_df = pd.DataFrame(data=datadict)
-base_df.head()
+print(base_df.head())
 
 
 
