@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pypi-requirements
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: packagesdir
+      mountPath: /usr/share/nginx/html
+  # These containers are run during pod initialization
+  initContainers:
+  - name: fetch-packages
+    image: nimamahmoudi/pypi-fetch-packages
+    volumeMounts:
+    - name: packagesdir
+      mountPath: "/usr/app/packages"
+  - name: extract-dependencies
+    image: nimamahmoudi/pypi-extract-deps
+    volumeMounts:
+    - name: packagesdir
+      mountPath: "/usr/app/packages"
+  - name: parse-dependencies
+    image: nimamahmoudi/pypi-parse-dependencies
+    volumeMounts:
+    - name: packagesdir
+      mountPath: "/usr/app/packages"
+  dnsPolicy: Default
+  volumes:
+  - name: packagesdir
+    emptyDir: {}
+
