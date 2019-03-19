@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pypi-requirements
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: datadir
+      mountPath: /usr/share/nginx/html
+  # These containers are run during pod initialization
+  initContainers:
+  - name: fetch-packages
+    image: nimamahmoudi/pypi-fetch-dependencies-directly
+    volumeMounts:
+    - name: datadir
+      mountPath: "/usr/app/data"
+  dnsPolicy: Default
+  volumes:
+  - name: datadir
+    emptyDir: {}
+
