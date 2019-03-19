@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import datetime
 
 
 data_folder = 'data/'
@@ -57,11 +58,18 @@ def get_dependencies(package_name, release_version):
     time.sleep(.18)
     return deps, dep_reqs
 
+
+def robust_get_dependencies(package_name, release_version):
+    try:
+        return get_dependencies(package_name, release_version)
+    except Exception as e:
+        print('Exception: ' + str(e))
+        time.sleep(5)
+        return robust_get_dependencies(package_name, release_version)
+
 package_name = 'django'
 release_version = '2.1.7'
-get_dependencies(package_name, release_version)
-
-
+robust_get_dependencies(package_name, release_version)
 
 count = 0
 for index, row in df_ver.iterrows():
@@ -72,7 +80,7 @@ for index, row in df_ver.iterrows():
     package_name = df_ver.loc[index, 'project_name']
     release_version = df_ver.loc[index, 'number']
     print(package_name, release_version)
-    deps, dep_reqs = get_dependencies(package_name, release_version)
+    deps, dep_reqs = robust_get_dependencies(package_name, release_version)
     dep_counts = len(deps)
     
     new_deps['platform'] += (['Pypi']*dep_counts)
