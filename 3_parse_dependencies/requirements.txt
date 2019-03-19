@@ -1,0 +1,3 @@
+requirements-parser
+numpy
+pandas
