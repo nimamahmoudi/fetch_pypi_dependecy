@@ -48,10 +48,10 @@ def get_dependencies(package_name, release_version):
             b = a.split(' ')
             c = b[0]
             d = '*'
-            d = d.strip('()')
             if len(b) > 1:
                 if len(b[1]) > 0:
                     d = b[1]
+            d = d.strip('()')
             deps.append(c)
             dep_reqs.append(d)
             
@@ -69,17 +69,21 @@ def robust_get_dependencies(package_name, release_version):
 
 package_name = 'django'
 release_version = '2.1.7'
-robust_get_dependencies(package_name, release_version)
+print(robust_get_dependencies(package_name, release_version))
+
+total_vers = df_ver.shape[0]
 
 count = 0
 for index, row in df_ver.iterrows():
     count += 1
-    if count > 100:
-        break
+    if count % 100 == 1:
+        print(count, '/' , total_vers)
+    # if count > 200:
+    #     break
 
     package_name = df_ver.loc[index, 'project_name']
     release_version = df_ver.loc[index, 'number']
-    print(package_name, release_version)
+    # print(package_name, release_version)
     deps, dep_reqs = robust_get_dependencies(package_name, release_version)
     dep_counts = len(deps)
     
@@ -101,4 +105,4 @@ for index, row in df_ver.iterrows():
 new_df = pd.DataFrame(data=new_deps)
 print(new_df.head())
 
-new_df.to_csv('data/new_reqs.csv')
+new_df.to_csv('output/new_reqs.csv')
