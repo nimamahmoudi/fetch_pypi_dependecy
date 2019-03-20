@@ -106,3 +106,10 @@ new_df = pd.DataFrame(data=new_deps)
 print(new_df.head())
 
 new_df.to_csv('output/new_reqs.csv')
+
+new_deps2 = {
+    'package_name': new_deps['project_name'],
+    'requirement': new_deps['dependency_name'],
+}
+new_df2 = pd.DataFrame(data=new_deps2)
+new_df2.to_csv('output/requirements.csv')
