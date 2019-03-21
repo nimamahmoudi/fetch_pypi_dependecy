@@ -1,0 +1,8 @@
+provider:
+  name: faas
+  gateway: http://wg2.nmahmoudi.ir:31112
+functions:
+  get-pypi-dep:
+    lang: python
+    handler: ./get-pypi-dep
+    image: nimamahmoudi/get-pypi-dep:latest

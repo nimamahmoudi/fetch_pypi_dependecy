@@ -55,17 +55,19 @@ def get_dependencies(package_name, release_version):
             deps.append(c)
             dep_reqs.append(d)
             
-    time.sleep(.18)
+    time.sleep(.1)
     return deps, dep_reqs
 
 
-def robust_get_dependencies(package_name, release_version):
+def robust_get_dependencies(package_name, release_version, retry=5):
+    if retry == 0:
+        return None, None
     try:
         return get_dependencies(package_name, release_version)
     except Exception as e:
         print('Exception: ' + str(e))
         time.sleep(5)
-        return robust_get_dependencies(package_name, release_version)
+        return robust_get_dependencies(package_name, release_version, retry-1)
 
 package_name = 'django'
 release_version = '2.1.7'
@@ -85,6 +87,12 @@ for index, row in df_ver.iterrows():
     release_version = df_ver.loc[index, 'number']
     # print(package_name, release_version)
     deps, dep_reqs = robust_get_dependencies(package_name, release_version)
+
+    # if error happened
+    if deps is None:
+        print('Failed for:', package_name, release_version)
+        continue
+
     dep_counts = len(deps)
     
     new_deps['platform'] += (['Pypi']*dep_counts)
