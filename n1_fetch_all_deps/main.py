@@ -162,6 +162,10 @@ def robust_extract(package, version, client, retry=5):
                 dep = req.name
                 if type(dep) == bytes:
                     dep = dep.decode("utf-8", "ignore")
+                elif dep == None:
+                    dep = "none"
+                else:
+                    dep = str(dep)
                 dep_req = "*"
                 if len(req.version_specs) > 0:
                     dep_req = "".join(list(req.version_specs[0]))
