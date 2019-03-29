@@ -1,2 +1,5 @@
 numpy
 pandas
+python-louvain
+requirements-detector
+requests

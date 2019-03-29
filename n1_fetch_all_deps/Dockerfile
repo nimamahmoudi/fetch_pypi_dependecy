@@ -3,11 +3,11 @@ LABEL maintainer="nima.mahmoudi@ualberta.ca"
 
 WORKDIR /usr/app
 
+COPY ./data ./data
+
 COPY ./requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
-
-COPY ./data ./data
 
 COPY ./ .
 
