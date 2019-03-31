@@ -146,6 +146,8 @@ def extract_package(name, release, client=xmlrpclib.ServerProxy('http://pypi.pyt
 ensure_dir('packages')
 ensure_dir('tmp')
 
+import shutil
+
 import time
 from requirements_detector import find_requirements
 from requirements_detector.detect import RequirementsNotFound
@@ -156,6 +158,10 @@ def robust_extract(package, version, client, retry=5):
         name = extract_package(package, version, client)
         if name is not None:
             reqs = find_requirements(name)
+
+            if os.path.isdir(name):
+                shutil.rmtree(name)
+            
             deps = []
             dep_reqs = []
             for req in reqs:
@@ -176,6 +182,8 @@ def robust_extract(package, version, client, retry=5):
         else:
             return None, None
     except RequirementsNotFound:
+        if os.path.isdir(name):
+            shutil.rmtree(name)
         return None, None
 #     except requests.exceptions.HTTPError as e:
     except Exception as e:
