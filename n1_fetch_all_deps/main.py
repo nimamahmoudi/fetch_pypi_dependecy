@@ -206,7 +206,7 @@ total_vers = df_ver.shape[0]
 count = 0
 for index, row in df_ver.iterrows():
     count += 1
-    if count % 100 == 1:
+    if count % 1000 == 1:
         print(count, '/' , total_vers)
     # if count > 200:
     #     break
