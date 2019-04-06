@@ -13,4 +13,4 @@ COPY ./ .
 
 VOLUME /usr/app/packages
 
-CMD [ "python", "-u", "main.py"]
+CMD [ "python", "-u", "main2.py"]
