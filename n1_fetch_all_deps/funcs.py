@@ -213,14 +213,13 @@ def processInput(row):
 
 
 def processInput2(row):
-    # try:
+    try:
     # count = row[1]
     # row = row[0]
-
-    res = processInput(row)
-    name = 'packages/{}-{}/'.format(row['project_name'], row['number'])
-    if os.path.isdir(name):
-            shutil.rmtree(name)
-    return res
-    # except:
-    #     return None
+        res = processInput(row)
+        name = 'packages/{}-{}/'.format(row['project_name'], row['number'])
+        if os.path.isdir(name):
+                shutil.rmtree(name)
+        return res
+    except:
+        return None

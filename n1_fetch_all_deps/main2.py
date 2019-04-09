@@ -63,8 +63,8 @@ print('Starting Multiprocessing...')
 # all_res = list(map(processInput2, zip([df_ver.iloc[i,:] for i in inputs],list(inputs))), total=len(inputs))
 
 all_res = []
-for i in tqdm(range(10000)):
-    all_res.append(processInput2((df_ver.iloc[i,:], i)))
+for i in tqdm(range(total_vers)):
+    all_res.append(processInput2(df_ver.iloc[i,:]))
 
 for res in all_res:
     if res is None:
