@@ -50,12 +50,21 @@ total_vers = df_ver.shape[0]
 inputs = range(total_vers)
 
 
-import tqdm
+from tqdm import tqdm
 
-from multiprocessing import Pool, cpu_count
-with Pool(cpu_count() + 15) as p:
+print('Starting Multiprocessing...')
+
+# from multiprocessing import Pool, cpu_count
+# with Pool(2) as p:
+#     print('running the pool...')
     # all_res = (p.map(processInput2, zip([df_ver.iloc[i,:] for i in inputs],list(inputs))))
-    all_res = list(tqdm.tqdm(p.imap(processInput2, zip([df_ver.iloc[i,:] for i in inputs],list(inputs))), total=len(inputs)))
+    # all_res = list(tqdm.tqdm(p.imap(processInput2, zip([df_ver.iloc[i,:] for i in inputs],list(inputs))), total=len(inputs)))
+
+# all_res = list(map(processInput2, zip([df_ver.iloc[i,:] for i in inputs],list(inputs))), total=len(inputs))
+
+all_res = []
+for i in tqdm(range(10000)):
+    all_res.append(processInput2((df_ver.iloc[i,:], i)))
 
 for res in all_res:
     if res is None:

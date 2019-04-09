@@ -158,10 +158,10 @@ import time
 # import timeout_decorator
 
 # @timeout_decorator.timeout(5)
-def processInput(row, count):
+def processInput(row):
 #     row = df_ver.iloc[index,:]
 #     count += 1
-    # if count % 100 == 1:
+    # if count % 1000 == 1:
     #     print(count)
 #         print(count, '/' , total_vers)
     package_name = row['project_name']
@@ -213,14 +213,14 @@ def processInput(row, count):
 
 
 def processInput2(row):
-    try:
-        count = row[1]
-        row = row[0]
+    # try:
+    # count = row[1]
+    # row = row[0]
 
-        res = processInput(row, count)
-        name = 'packages/{}-{}/'.format(row['project_name'], row['number'])
-        if os.path.isdir(name):
-                shutil.rmtree(name)
-        return res
-    except:
-        return None
+    res = processInput(row)
+    name = 'packages/{}-{}/'.format(row['project_name'], row['number'])
+    if os.path.isdir(name):
+            shutil.rmtree(name)
+    return res
+    # except:
+    #     return None
